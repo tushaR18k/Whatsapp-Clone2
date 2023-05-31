@@ -1,0 +1,232 @@
+/* ChatSidebar.css */
+
+.chat-sidebar {
+    width: 33%;
+    background-color: #f8f9fa;
+    border-right: 1px solid #e0e0e0;
+    padding: 16px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .add-friend-button {
+    background-color: #128c7e;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10pxs;
+  }
+  
+  .add-friend-popup {
+    /* Your existing styles */
+    position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+  z-index: 2;
+  }
+
+  .add-friend-popup.open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+  }
+
+  .add-friend-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    max-width: 90%;
+  }
+
+  .add-friend-form h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+  
+  .add-friend-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .add-friend-form button {
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .add-friend-form button[type='submit'] {
+    background-color: #25d366;
+  }
+  
+  .add-friend-form button[type='button'] {
+    margin-left: 10px;
+    background-color: #dc3545;
+  }
+  
+  .add-friend-form .error-message {
+    color: #dc3545;
+    margin-top: 10px;
+  }
+
+  .add-friend-popup.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  
+  .add-friend-popup.closed {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+
+  .backdrop-overlay {
+    /* Your existing styles */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+    z-index: 1;
+  }
+
+  .backdrop-overlay.open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+  }
+
+  .friend-list {
+    flex: 1;
+    overflow-x: auto;
+    margin: 20px;
+    padding: 10px;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .friend-list-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .friend-list-error {
+    color: red;
+    margin-bottom: 10px;
+  }
+  
+  .friend-list-items {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .friend-list-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .friend-list-item:hover {
+    background-color: #f2f2f2;
+  }
+
+  .friend-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .friend-list h2 {
+    font-size: 20px;
+    color: #333;
+  }
+  
+  .friend-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  .friend-list li {
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .friend-list li:hover {
+    background-color: #ebebeb;
+  }
+
+  .chat-sidebar-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f2f2f2;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .chat-sidebar-inner h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .chat-sidebar-inner .friend-list {
+    width: 100%;
+    max-height: 500px;
+    overflow-y: auto;
+  }
+  
+  .chat-sidebar-inner .friend-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .chat-sidebar-inner .friend-list li {
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .chat-sidebar-inner .friend-list li:hover {
+    background-color: #ebebeb;
+  }
+  
+  

@@ -1,0 +1,33 @@
+.chat-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #f5f5f5;
+  }
+  
+  .profile-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+    /* Add styles for the profile picture, such as background image */
+  }
+  
+  .contact-info {
+    margin-left: 10px;
+  }
+  
+  .contact-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .contact-status {
+    font-size: 14px;
+    margin: 0;
+    color: #888;
+  }
+  
+  /* Additional styles and customization can be added as per your design */
+  

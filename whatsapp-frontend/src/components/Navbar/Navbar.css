@@ -1,0 +1,61 @@
+/* Navbar container */
+.navbar {
+    background-color: #007bff;
+    color: #fff;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Navbar logo */
+  .navbar-logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* Logout button */
+  .logout-button {
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .logout-button::before,
+  .logout-button::after {
+    content: '';
+    position: absolute;
+    background-color: #fff;
+    height: 2px;
+    width: 0;
+    transition: width 0.3s ease-in-out;
+  }
+  
+  .logout-button::before {
+    top: 50%;
+    left: 0;
+  }
+  
+  .logout-button::after {
+    top: 50%;
+    right: 0;
+  }
+  
+  .logout-button:hover::before,
+  .logout-button:hover::after {
+    width: 50%;
+  }
+  
+  /* Adjust the position of the logo and button */
+  .navbar-logo {
+    margin-left: 16px;
+  }
+  
+  .logout-button {
+    margin-right: 16px;
+  }
+  
