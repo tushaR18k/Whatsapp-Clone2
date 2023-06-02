@@ -19,7 +19,10 @@ const ChatHome = ({contactName,contactId,contactStatus,userId,jwt,socket}) =>{
         // });
 
         //socket.send(msg.context)
-        let outgoingEvent = new SendMessageEvent(msg.context,userId,contactId,userId.toString()+contactId.toString())
+        let outgoingEvent = new SendMessageEvent(msg.context,userId,contactId,
+                    userId.toString()+contactId.toString(),
+                    msg.message_type,msg.file_location)
+        console.log(outgoingEvent)
         sendEvent("send_message", outgoingEvent);
 
     }

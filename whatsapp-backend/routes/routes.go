@@ -3,10 +3,14 @@ package routes
 import (
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strconv"
 	"time"
+	"whatsapp-backend/helper"
 	"whatsapp-backend/models"
 
 	"github.com/dgrijalva/jwt-go"
@@ -247,10 +251,14 @@ func IsFriend(userID int, friendId int) bool {
 }
 
 func SendMessage(c *gin.Context) {
+	// body, _ := ioutil.ReadAll(c.Request.Body)
+	// fmt.Printf("Body: %v", string(body))
+	// // Reset the request body for binding
+	// c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(body))
 	//Parsing the body
 	var message models.Message
-	if err := c.ShouldBindJSON(&message); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+	if err := c.ShouldBind(&message); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request: " + err.Error()})
 		return
 	}
 
@@ -260,6 +268,22 @@ func SendMessage(c *gin.Context) {
 		return
 	}
 
+	//Handle file upload
+	file, err := c.FormFile("file")
+	if err == nil {
+		//Saving the file to desired location
+		filename := filepath.Base(helper.GenerateUniqueFilename(file.Filename))
+		if err := c.SaveUploadedFile(file, "uploads/"+filename); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save file"})
+			return
+		}
+		message.FileName = filename
+		message.FileSize = fmt.Sprint(file.Size)
+		message.FileType = file.Header.Get("Content-Type")
+		message.FilePath = filename
+		message.MessageType = "document"
+	}
+
 	//Saving the message
 	db := GetDbConnection()
 	if err := db.Create(&message).Error; err != nil {
@@ -267,7 +291,7 @@ func SendMessage(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Message Sent Successfully"})
+	c.JSON(http.StatusOK, gin.H{"message": "Message Sent Successfully", "file_location": message.FilePath})
 }
 
 func GetMessages(c *gin.Context) {
@@ -295,4 +319,38 @@ func GetMessages(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, messages)
+}
+
+func DownloadFile(c *gin.Context) {
+	filePath := c.Param("filePath")
+
+	//Checking the file existance
+	pwd, _ := os.Getwd()
+	path := filepath.Join(pwd, "uploads", filePath)
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		c.JSON(http.StatusNotFound, gin.H{"error": "File not found"})
+		return
+	}
+
+	//Open the file
+	file, err := os.Open(path)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to open file"})
+		return
+	}
+
+	defer file.Close()
+
+	//Setting the appropriate headers for the file download
+	c.Header("Content-Description", "File Transfer")
+	c.Header("Content-Disposition", "attachment; filename="+filepath.Base(filePath))
+	c.Header("Content-Type", "application/octet-stream")
+	c.Header("Content-Transfer-Encoding", "binary")
+	c.Header("Expires", "0")
+
+	// Stream the file to the response
+	if _, err := io.Copy(c.Writer, file); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to download file"})
+		return
+	}
 }

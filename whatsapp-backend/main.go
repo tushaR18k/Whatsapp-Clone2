@@ -53,6 +53,7 @@ func main() {
 	router.GET("/api/messages/:senderID/:receiverID", middleware.AuthMiddleware(), routes.GetMessages)
 
 	router.GET("/ws", manager.ServeWS)
+	router.GET("/api/files/:filePath", routes.DownloadFile)
 
 	router.Run(":" + port)
 

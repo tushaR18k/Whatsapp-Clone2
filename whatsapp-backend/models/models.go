@@ -1,6 +1,7 @@
 package models
 
 import (
+	"mime/multipart"
 	"time"
 )
 
@@ -23,16 +24,17 @@ type Friend struct {
 }
 
 type Message struct {
-	ID          int       `gorm:"primary_key" json:"id"`
-	SenderID    int       `gorm:"not null" json:"sender_id"`
-	ReceiverID  int       `gorm:"not null" json:"receiver_id"`
-	MessageType string    `gorm:"not null" json:"message_type"`
-	Content     string    `gorm:"type:text" json:"context"`
-	FileName    string    `json:"file_name"`
-	FileSize    string    `json:"file_size"`
-	FileType    string    `json:"file_type"`
-	FilePath    string    `json:"file_path"`
-	CreatedAt   time.Time `gorm:"default:current_timestamp"`
+	ID          int                   `gorm:"primary_key" json:"id"`
+	SenderID    int                   `gorm:"not null" json:"sender_id" form:"sender_id"`
+	ReceiverID  int                   `gorm:"not null" json:"receiver_id" form:"receiver_id"`
+	MessageType string                `gorm:"not null" json:"message_type" form:"message_type"`
+	Content     string                `gorm:"type:text" json:"context" form:"context"`
+	FileName    string                `gorm:"column:file_name" json:"file_name,omitempty"`
+	FileSize    string                `gorm:"column:file_size" json:"file_size,omitempty"`
+	FileType    string                `gorm:"column:file_type" json:"file_type,omitempty"`
+	FilePath    string                `gorm:"column:file_path" json:"file_path,omitempty"`
+	FileContent *multipart.FileHeader `form:"file"`
+	CreatedAt   time.Time             `gorm:"default:current_timestamp"`
 
 	Sender   User `gorm:"foreignkey:SenderID" json:"-"`
 	Receiver User `gorm:"foreignkey:ReceiverID" json:"-"`

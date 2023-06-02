@@ -72,6 +72,7 @@ const ChatMessages = ({userId,selectedFriendId,jwt,messages,setMessages}) => {
                     <div key={message.id} className={`message ${message.sender_id === userId ? 'sender' : 'receiver'}`}>
                         <div className={`message-content ${message.sender_id == userId ? 'align-right': 'align-left'}`}>
                             <p>{message.context}</p>
+                            {message.message_type === 'document' && <a className="download-link" href={`http://localhost:8080/api/files/${message.file_path}`}>Download</a>}
                             <span>{message.sender}</span>
                         </div>
                     </div>

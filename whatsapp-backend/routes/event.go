@@ -22,10 +22,12 @@ const (
 
 // Payload sent in the send_message event
 type SendMessageEvent struct {
-	Message  string `json:"message"`
-	From     int    `json:"from"`
-	To       int    `json:"to"`
-	Chatroom string `json:"chatroom"`
+	Message     string `json:"message"`
+	From        int    `json:"from"`
+	To          int    `json:"to"`
+	Chatroom    string `json:"chatroom"`
+	MessageType string `json:"messageType"`
+	MessageURL  string `json:"fileLocation,omitempty"`
 }
 
 // NewMessageEvent is returned when responding to send_message
@@ -42,6 +44,8 @@ func SendMessageHandler(event Event, c *Client) error {
 		return fmt.Errorf("bad payload in request: %v", err)
 	}
 
+	fmt.Printf("Data: %v", string(event.Payload))
+
 	// Prepare an Outgoing message to others
 	var broadMessage NewMessageEvent
 	broadMessage.Sent = time.Now()
@@ -49,6 +53,10 @@ func SendMessageHandler(event Event, c *Client) error {
 	broadMessage.From = chatevent.From
 	broadMessage.To = chatevent.To
 	broadMessage.Chatroom = chatevent.Chatroom
+	broadMessage.MessageType = chatevent.MessageType
+	if broadMessage.MessageType != "text" {
+		broadMessage.MessageURL = chatevent.MessageURL
+	}
 
 	data, err := json.Marshal(broadMessage)
 	if err != nil {

@@ -7,21 +7,25 @@ export class MessageEvent {
 }
 
 export class SendMessageEvent{
-    constructor(message, userId,friendId,chatroom){
+    constructor(message, userId,friendId,chatroom,messageType,fileLocation){
         this.message = message;
         this.from = userId;
         this.to = friendId;
         this.chatroom = chatroom
+        this.messageType = messageType
+        this.fileLocation = fileLocation
     }
 }
 
 export class NewMessageEvent{
-    constructor(message,from,sent,to,chatroom){
+    constructor(message,from,sent,to,chatroom,messageType,fileLocation){
         this.message = message
         this.from = from
         this.to = to
         this.chatroom = chatroom
         this.sent = sent
+        this.messageType = messageType
+        this.fileLocation = fileLocation
     }
 }
 
@@ -35,7 +39,9 @@ export function RouteEvent(event,setMessages){
             console.log(event.payload);
             const messageEvent = Object.assign(new NewMessageEvent, event.payload);
             setMessages((prevMessages) => {
-                let newMessage = {id:(prevMessages.length === 0)?1:prevMessages[prevMessages.length - 1]['id']+1,sender_id:messageEvent.from,receiver_id:messageEvent.to,message_type:"text",context:messageEvent.message}
+                let newMessage = {id:(prevMessages.length === 0)?1:prevMessages[prevMessages.length - 1]['id']+1,
+                                sender_id:messageEvent.from,receiver_id:messageEvent.to,message_type:messageEvent.messageType,
+                                context:messageEvent.message,file_location:messageEvent.fileLocation}
                 return [...prevMessages, newMessage];
             });
             break;

@@ -90,6 +90,31 @@
 }
 
 
+/* CSS for the download link */
+.download-link {
+  display: inline-block;
+  background-color: #f1f1f1;
+  color: #333;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.download-link:hover {
+  background-color: #ddd;
+}
+
+.download-link::after {
+  content: "\2193"; /* Unicode arrow down character */
+  margin-left: 4px;
+}
+
+.download-link:active {
+  background-color: #bbb;
+}
+
+
 
 
   
