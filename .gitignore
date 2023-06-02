@@ -4,6 +4,7 @@
 whatsapp-frontend/node_modules
 whatsapp-frontend/.pnp
 whatsapp-frontend/.pnp.js
+whatsapp-backend/uploads
 
 # testing
 /coverage
